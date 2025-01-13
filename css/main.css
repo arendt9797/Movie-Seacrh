@@ -1,5 +1,6 @@
 body {
     margin: 0;
+    min-width: 540px;
 }
 
 /* ------------- 헤더 -------------- */
@@ -16,18 +17,19 @@ h1 {
     color: aliceblue;
 }
 
-.movie-search {
-    text-align: center;
-    margin-bottom: 10px;
-}
-
 .movie-search-input {
-    width: 800px;
+    width: 75%;
     height: 50px;
     font-size: x-large;
     padding: 0 20px;
     border-radius: 10px;
     border-color: transparent;
+    margin: auto;
+}
+@media(max-width:720px) {
+    .movie-search-input {
+        width: 40%;
+    }
 }
 
 .movie-search-input:focus {
@@ -37,7 +39,7 @@ h1 {
 .movie-bookmark {
     width: 1000px;
     height: 40px;
-    margin-bottom: 10px;
+    margin: 10px 0;
     color: aliceblue;
     background-color: transparent;
     border: transparent;
@@ -62,13 +64,15 @@ h1 {
     grid-template-columns: repeat(auto-fill, var(--card-width));
     gap: 10px;
     padding: 10px;
+    /* 최소 창 크기 */
+    min-width: 540px;
 }
 
-@media(max-width:540px) {
+/* @media(max-width:540px) {
     .movie-container {
         grid-template-columns: repeat(2, var(--card-width));
     }
-}
+} */
 
 .movie-container>.movie-card {
     background-color: rgb(255, 255, 255);
