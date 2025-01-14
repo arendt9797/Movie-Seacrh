@@ -1,8 +1,9 @@
 body {
     margin: 0;
+    min-width: 540px;
 }
 
-/* ------------- 헤더 -------------- */
+/* ============== 헤더 ================ */
 header {
     background-color: rgb(52, 172, 152);
     display: grid;
@@ -14,20 +15,23 @@ h1 {
     text-align: center;
     margin: 20px 0;
     color: aliceblue;
-}
-
-.movie-search {
-    text-align: center;
-    margin-bottom: 10px;
+    cursor: default;
 }
 
 .movie-search-input {
-    width: 800px;
+    width: 75%;
     height: 50px;
     font-size: x-large;
     padding: 0 20px;
     border-radius: 10px;
     border-color: transparent;
+    margin: auto;
+}
+
+@media(max-width:720px) {
+    .movie-search-input {
+        width: 40%;
+    }
 }
 
 .movie-search-input:focus {
@@ -37,7 +41,7 @@ h1 {
 .movie-bookmark {
     width: 1000px;
     height: 40px;
-    margin-bottom: 10px;
+    margin: 10px 0;
     color: aliceblue;
     background-color: transparent;
     border: transparent;
@@ -49,7 +53,7 @@ h1 {
     cursor: pointer;
 }
 
-/* ---------- 영화 목록 ----------- */
+/* =========== 영화 목록 ============= */
 :root {
     --card-width: 220px;
 }
@@ -62,12 +66,7 @@ h1 {
     grid-template-columns: repeat(auto-fill, var(--card-width));
     gap: 10px;
     padding: 10px;
-}
-
-@media(max-width:540px) {
-    .movie-container {
-        grid-template-columns: repeat(2, var(--card-width));
-    }
+    min-width: 540px;
 }
 
 .movie-container>.movie-card {
@@ -78,17 +77,10 @@ h1 {
     transition: all 0.5s;
 }
 
-@keyframes move {
-    100% {
-        transform: scale(1.1);
-        /* 애니메이션이 100%만큼 동작시 */
-    }
-}
-
 .movie-card:hover {
     box-shadow: 0px 0px 10px rgb(126, 126, 126);
-    animation: move 1s;
-    animation-fill-mode: forwards;
+    /* animation: move 1s;
+    animation-fill-mode: forwards; */
 }
 
 .movie-poster {
@@ -108,4 +100,54 @@ h1 {
     margin: 0 10px 10px 10px;
     font-size: small;
     color: rgb(97, 97, 97);
+}
+
+/* ============= 모달 팝업 ============= */
+.movie-modal.visible {
+    display: grid;
+    place-content: center;
+}
+
+.movie-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    
+    background: rgba(0, 0, 0, 0.4);
+}
+
+.movie-modal .movie-modal-body {
+    width: 50vw;
+    padding: 20px;
+    background: #ffffff;
+    border-radius: 10px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    margin: 20px 0;
+}
+
+.movie-modal .movie-modal-body .close_btn {
+    display: block;
+    padding: 10px 20px;
+    background-color: rgb(116, 0, 0);
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+    transition: box-shadow 0.2s;
+}
+
+.movie-modal-body::-webkit-scrollbar {
+    width: 10px;
+}
+.movie-modal-body::-webkit-scrollbar-thumb {
+    background: rgb(52, 172, 152);
+    border-radius: 10px;
+}
+.movie-modal-body::-webkit-scrollbar-track {
+    background: rgb(159, 214, 205);
+    border-radius: 10px;
 }
