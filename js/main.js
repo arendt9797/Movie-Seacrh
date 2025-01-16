@@ -28,6 +28,7 @@ const makeMovieList = (data) => {
                 <img src="https://image.tmdb.org/t/p/w200${poster}" onerror="this.src='./src/no_image.png';" alt="poster" class="movie-poster">
                 <div class="movie-title">${title}</div>
                 <div class="movie-rating">평점: ${rating}</div>
+                <div class="movie-card-liked">❤️</div>
             </div>
         `
         $movieContainer.innerHTML += template
@@ -75,13 +76,11 @@ const setSearchApiUrl = async (movieSearchInput) => {
 // id와 해당 카드를 세션 스토리지에 저장
 $movieContainer.addEventListener("click", (event) => {
     const movieCard = event.target.closest(".movie-card")
-    if (!movieCard)
-        return
     if (movieCard && $movieContainer.contains(movieCard)) {
         $movieModal.classList.add("visible")
     }
     const id = movieCard.dataset.id
-    sessionStorage.setItem(id, movieCard)
+    sessionStorage.setItem(id, movieCard.outerHTML)
     makeMovieModal(id)
 })
 
@@ -101,6 +100,7 @@ const makeMovieModal = async (id) => {
     let currentLike = localStorage.getItem(id) ? LIKED : ''
     let currentText = localStorage.getItem(id) ? LIKE_TEXT : NOT_LIKE_TEXT
 
+    // 상세페이지 div에 movie id를 속성으로 넣어주기
     let template = `
         <div class="movie-modal-body modal-element" data-id="${id}">
             <div class="modal-poster modal-element">   
@@ -130,7 +130,13 @@ $movieModal.addEventListener("click", (event) => {
 })
 
 
-// =============== 좋아요 페이지 ================= //
+// =============== 모달 내 좋아요 버튼 & 좋아요 페이지 ================= //
+const stringToElement = (stringHTML) => {
+    const objectHTML = document.createElement('div')
+    objectHTML.innerHTML = stringHTML
+    return objectHTML.firstChild
+}
+
 // 좋아요 버튼 토글
 // 좋아요 누른 영화 배열에 추가/삭제
 $movieModal.addEventListener("click", (event) => {
@@ -138,39 +144,24 @@ $movieModal.addEventListener("click", (event) => {
     const likeButton = event.target.closest('.like-btn')
     if (!likeButton || !movieModalBody)
         return
-
+    
+    // 상세페이지 div에 넣어뒀던 movie id 가져오기
     const movieID = movieModalBody.dataset.id
+
+    let movieCardFromStorage = sessionStorage.getItem(movieID)
+    movieCardFromStorage = stringToElement(movieCardFromStorage)
+    const movieCardLiked = movieCardFromStorage.querySelector('.movie-card-liked')
+    
     if (likeButton.classList.contains(LIKED)) {
         likeButton.innerHTML = NOT_LIKE_TEXT
-        // movieLikedIDs = movieLikedIDs.filter(id => id !== movieID)
         localStorage.removeItem(movieID)
     } else {
         likeButton.innerHTML = LIKE_TEXT
-        // movieLikedIDs.push(movieID)
-        localStorage.setItem(movieID, sessionStorage.getItem(movieID))
+        movieCardLiked.classList.add('visible')
+        localStorage.setItem(movieID, movieCardFromStorage.outerHTML)
     }
     likeButton.classList.toggle(LIKED)
 })
-
-// ID를 이용한 좋아요 누른 영화 카드 목록 생성 함수
-const makeMovieListWithID = async (id) => {
-    $movieContainer.innerHTML = ""
-    const LIKED_URL = `https://api.themoviedb.org/3/movie/${id}?language=ko-KR`
-    const movieData = await getMovieData(LIKED_URL)
-
-    let poster = movieData.poster_path
-    let title = movieData.title
-    let rating = movieData.vote_average.toFixed(2)
-
-    let template = `
-            <div class="movie-card" data-id="${id}">
-                <img src="https://image.tmdb.org/t/p/w200${poster}" onerror="this.src='./src/no_image.png';" alt="poster" class="movie-poster">
-                <div class="movie-title">${title}</div>
-                <div class="movie-rating">평점: ${rating}</div>
-            </div>
-        `
-    $movieContainer.innerHTML += template
-}
 
 // 좋아요한 영화 버튼 누르면 localStorage 순회
 $movieLikedList.addEventListener("click", () => {
@@ -178,7 +169,8 @@ $movieLikedList.addEventListener("click", () => {
         $movieContainer.innerHTML = `<div class="empty-list">아직 좋아요한 영화가 없네요!</div>`
         return
     }
+    $movieContainer.innerHTML = ""
     Object.keys(localStorage).forEach((movieID) => {
-        makeMovieListWithID(movieID)
+        $movieContainer.innerHTML += localStorage.getItem(movieID)
     })
 })
