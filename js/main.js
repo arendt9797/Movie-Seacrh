@@ -23,12 +23,14 @@ const makeMovieList = (data) => {
         let rating = movie.vote_average.toFixed(2)
         let id = movie.id
 
+        let liked = localStorage.getItem(id) ? 'visible' : ''
+
         let template = `
             <div class="movie-card" data-id="${id}">
                 <img src="https://image.tmdb.org/t/p/w200${poster}" onerror="this.src='./src/no_image.png';" alt="poster" class="movie-poster">
                 <div class="movie-title">${title}</div>
                 <div class="movie-rating">평점: ${rating}</div>
-                <div class="movie-card-liked">❤️</div>
+                <div class="movie-card-liked ${liked}">❤️</div>
             </div>
         `
         $movieContainer.innerHTML += template
@@ -131,6 +133,7 @@ $movieModal.addEventListener("click", (event) => {
 
 
 // =============== 모달 내 좋아요 버튼 & 좋아요 페이지 ================= //
+// 스토리지에 저장된 value를 string에서 element로 바꿔주기
 const stringToElement = (stringHTML) => {
     const objectHTML = document.createElement('div')
     objectHTML.innerHTML = stringHTML
@@ -148,19 +151,29 @@ $movieModal.addEventListener("click", (event) => {
     // 상세페이지 div에 넣어뒀던 movie id 가져오기
     const movieID = movieModalBody.dataset.id
 
+    // 로컬 스토리지에 저장하기 위해 세션 스토리지에 저장했던 영화 카드 요소를 불러오기
     let movieCardFromStorage = sessionStorage.getItem(movieID)
     movieCardFromStorage = stringToElement(movieCardFromStorage)
     const movieCardLiked = movieCardFromStorage.querySelector('.movie-card-liked')
+
+    // 기존 영화 카드에 좋아요 표시 삽입
+    const movieCards = $movieModal.nextElementSibling.children
+    const currentCard = [...movieCards].find(card => card.dataset.id === movieID)
+    const currentCardLiked = currentCard.lastElementChild
     
     if (likeButton.classList.contains(LIKED)) {
         likeButton.innerHTML = NOT_LIKE_TEXT
+        movieCardLiked.classList.remove('visible')
         localStorage.removeItem(movieID)
     } else {
         likeButton.innerHTML = LIKE_TEXT
+        // 바깥에서 toggle을 사용하면 안 된다. 
+        // 로컬 스토리지로 들어갈 영화 카드 정보에 적용되어야 하기 때문
         movieCardLiked.classList.add('visible')
         localStorage.setItem(movieID, movieCardFromStorage.outerHTML)
     }
     likeButton.classList.toggle(LIKED)
+    currentCardLiked.classList.toggle('visible')
 })
 
 // 좋아요한 영화 버튼 누르면 localStorage 순회
