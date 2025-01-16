@@ -81,8 +81,6 @@ h1 {
 
 .movie-card:hover {
     box-shadow: 0px 0px 10px rgb(126, 126, 126);
-    /* animation: move 1s;
-    animation-fill-mode: forwards; */
 }
 
 .movie-poster {
@@ -104,10 +102,28 @@ h1 {
     color: rgb(97, 97, 97);
 }
 
+.movie-card {
+    position: relative;
+}
+
+.movie-card-liked {
+    display: none;
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    font-size: x-large;
+    cursor: default;
+}
+
+.movie-card-liked.visible {
+    display: block;
+}
+
 /* ============= 모달 팝업 ============= */
 .movie-modal.visible {
     display: grid;
     place-content: center;
+    z-index: 1;
 }
 
 .movie-modal {
