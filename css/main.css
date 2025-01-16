@@ -13,10 +13,22 @@ header {
 h1 {
     margin: 0;
     text-align: center;
-    margin: 20px 0;
+    margin: 25px 0 20px 0;
     color: aliceblue;
     cursor: pointer;
     width: 1000px;
+    font-size: 60px;
+}
+
+h5 {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%);
+    text-align: center;
+    margin: 20px 0 0 0;
+    color: aliceblue;
+    font-weight: 500;
+    cursor: default;
 }
 
 .movie-search-input {
@@ -133,7 +145,6 @@ h1 {
     left: 0;
     width: 100%;
     height: 100%;
-    
     background: rgba(0, 0, 0, 0.4);
 }
 
