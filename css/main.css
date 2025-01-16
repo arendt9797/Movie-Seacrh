@@ -1,6 +1,6 @@
 body {
     margin: 0;
-    min-width: 540px;
+    background: aliceblue;
 }
 
 /* ============== 헤더 ================ */
@@ -15,7 +15,8 @@ h1 {
     text-align: center;
     margin: 20px 0;
     color: aliceblue;
-    cursor: default;
+    cursor: pointer;
+    width: 1000px;
 }
 
 .movie-search-input {
@@ -38,18 +39,20 @@ h1 {
     outline: none;
 }
 
-.movie-bookmark {
-    width: 1000px;
+.movie-liked {
+    width: 250px;
     height: 40px;
     margin: 10px 0;
     color: aliceblue;
     background-color: transparent;
     border: transparent;
+    border-radius: 20px;
     font-size: medium;
+    justify-self: center;
 }
 
-.movie-bookmark:hover {
-    background-color: rgb(27, 155, 91);
+.movie-liked:hover {
+    background-color: rgb(61, 196, 173);
     cursor: pointer;
 }
 
@@ -66,7 +69,6 @@ h1 {
     grid-template-columns: repeat(auto-fill, var(--card-width));
     gap: 10px;
     padding: 10px;
-    min-width: 540px;
 }
 
 .movie-container>.movie-card {
@@ -120,34 +122,122 @@ h1 {
 }
 
 .movie-modal .movie-modal-body {
-    width: 50vw;
-    padding: 20px;
-    background: #ffffff;
+    display: grid;
+    position: relative;
+    grid-template-areas: 
+    'poster details'
+    'poster footer';
+    grid-template-columns: 2fr 3fr;
+    grid-template-rows: 4fr 1fr;
+    gap: 20px;
+    width: 800px;
+    height: 430px;
+    padding: 20px 10px 20px 20px;
+    background: rgb(255, 255, 255);
     border-radius: 10px;
-    overflow-y: scroll;
-    overflow-x: hidden;
     margin: 20px 0;
 }
 
-.movie-modal .movie-modal-body .close_btn {
-    display: block;
-    padding: 10px 20px;
-    background-color: rgb(116, 0, 0);
+.movie-modal .movie-modal-body .modal-poster {
+    grid-area: poster;
+}
+
+.modal-poster img {
+    height: 430px;
+}
+
+.movie-modal .movie-modal-body .modal-details {
+    grid-area: details;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    padding: 0 20px 0 0;
+}
+.movie-modal .movie-modal-body .modal-footer {
+    grid-area: footer;
+}
+
+.modal-details::-webkit-scrollbar {
+    width: 10px;
+}
+.modal-details::-webkit-scrollbar-thumb {
+    background: rgb(52, 172, 152);
+    border-radius: 10px;
+}
+.modal-details::-webkit-scrollbar-track {
+    background: rgb(159, 214, 205);
+    border-radius: 10px;
+}
+
+.modal-details #modal-title {
+    font-size: xx-large;
+    font-weight: bold;
+    color: rgb(52, 172, 152);
+    margin-bottom: 10px;
+}
+
+.modal-details #modal-overview {
+    line-height: 2;
+}
+
+.modal-footer {
+    align-content: space-evenly;
+    font-weight: bold;
+    color: rgb(52, 172, 152);
+}
+
+.modal-footer #modal-date {
+    margin-bottom: 8px;
+}
+
+.modal-footer .close-btn {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    background-color: rgb(52, 172, 152);
     border: none;
     border-radius: 5px;
     color: #fff;
     cursor: pointer;
-    transition: box-shadow 0.2s;
+    width: 24px;
+    height: 24px;
+    padding-bottom: 2px;
 }
 
-.movie-modal-body::-webkit-scrollbar {
-    width: 10px;
+.modal-footer .like-btn {
+    position: absolute;
+    right: 50px;
+    bottom: 37px;
+    width: 240px;
+    height: 50px;
+    padding-left: 20px;
+    border-radius: 25px;
+    border: none;
+    font-size: x-large;
+    background: rgb(195, 241, 234);;
+    color: rgb(19, 105, 91);
 }
-.movie-modal-body::-webkit-scrollbar-thumb {
+
+.like-btn.liked {
     background: rgb(52, 172, 152);
-    border-radius: 10px;
+    color: aliceblue;
 }
-.movie-modal-body::-webkit-scrollbar-track {
+
+.modal-footer .like-btn:hover {
     background: rgb(159, 214, 205);
-    border-radius: 10px;
+    cursor: pointer;
+}
+
+.modal-footer .like-btn.liked:hover {
+    background: rgb(59, 189, 167);
+    cursor: pointer;
+}
+
+/* ============= 좋아요 목록 ============== */
+.empty-list {
+    position: absolute;
+    top: 60%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: x-large;
+    color: rgb(52, 172, 152);
 }
