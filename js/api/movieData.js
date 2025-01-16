@@ -1,4 +1,4 @@
-import config from "../config/apiKey.js"
+import config from "../../config/apiKey.js"
 
 const getMovieData = async (url) => {
     try {
@@ -14,7 +14,7 @@ const getMovieData = async (url) => {
         const data = await res.json()
         return data;
     } catch (err) {
-        console.error("Error occured in getMovieData : ", err);
+        console.error("Error occured while getting Movie Data : ", err);
     };
 };
 
