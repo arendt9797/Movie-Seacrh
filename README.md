@@ -1,6 +1,7 @@
 # 📽️DAMOATTA : 영화 검색 페이지
-- 배포 주소 : https://arendt9797.github.io/Movie-Seacrh/
+- **배포 주소** : https://arendt9797.github.io/Movie-Seacrh/
 <br/>
+
 ![image](https://github.com/user-attachments/assets/ff06fab3-eff1-48d1-8966-a061c360a5d0)
 ![image](https://github.com/user-attachments/assets/2f2931d0-76b0-4115-aa32-44fbd0b6f169)
 ![image](https://github.com/user-attachments/assets/2e7b2b51-c7c8-4d52-9b16-28db19ff3ee5)
