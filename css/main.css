@@ -89,6 +89,7 @@ h5 {
     border-radius: 10px;
     height: 440px;
     transition: all 0.5s;
+    cursor: pointer;
 }
 
 .movie-card:hover {
